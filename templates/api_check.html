@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block body %} 
+{% if session.logged_in %}
+
+<div>
+    {{ q.url }}
+    {{ q.text }}
+</div>
+
+{% endif %}
+{% endblock %}
