@@ -98,22 +98,14 @@ def logout():
 
 @app.route('/groupsearch/<q>')
 def groups_search(q):
-    parameter = 'q=' + q
-
-    request_string = request_construct('groups.search', parameter.split(','), 0, 0)
-    r = requests.get(request_string)
+    url, params = request_construct('groups.search', q=q)
+    r = requests.get(url, params)
     return render_template('api_check.html', q=r)
 
-def request_construct(method_name, parameters, access_token, version):
-    body = 'https://api.vk.com/method/'
-    body += method_name + '?'
-    if parameters != 0 :
-        for parameter in parameters:
-            body += parameter + '&'
-    if access_token != 0 :
-        body += access_token + '&'
-    if version != 0 :
-        body += version
-    else:
-        body += 'v=5.68'
-    return body
+def request_construct(method_name, *args, **kwargs):
+    body = 'https://api.vk.com/method/' + method_name
+    params = kwargs
+    params['version'] = '5.68'
+    #params['access_token'] = 'hueken'
+    
+    return (body, params)
